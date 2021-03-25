@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8.14-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # HTTP
+      - "25672:25672" # clustering
+      - "15692:15692" # http/prometheus
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      #- RABBITMQ_DEFAULT_VHOST=demo
+    volumes:
+      - .volumes/rabbitmq:/var/lib/rabbitmq
+    networks:
+      - demo-network
+
+
+networks:
+  demo-network:
+    driver: bridge

@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * A collection of {@link Declarable} objects; used to declare multiple objects on the
+ * broker using a single bean declaration for the collection.
+ */
 public class Declarables {
 
     private final Collection<Declarable> declarables = new ArrayList<>();

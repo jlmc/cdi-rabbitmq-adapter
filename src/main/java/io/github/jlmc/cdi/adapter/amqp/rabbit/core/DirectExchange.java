@@ -2,6 +2,9 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 
 import java.util.Map;
 
+/**
+ * Simple container collecting information to describe a direct exchange. Used in conjunction with administrative operations.
+ */
 public class DirectExchange extends AbstractExchange {
 
     public static final DirectExchange DEFAULT = new DirectExchange("");

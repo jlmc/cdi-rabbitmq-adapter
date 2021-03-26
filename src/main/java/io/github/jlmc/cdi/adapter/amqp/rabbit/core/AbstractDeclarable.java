@@ -3,6 +3,9 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Base class for Declarable classes.
+ */
 class AbstractDeclarable implements Declarable {
 
     private final Map<String, Object> arguments;

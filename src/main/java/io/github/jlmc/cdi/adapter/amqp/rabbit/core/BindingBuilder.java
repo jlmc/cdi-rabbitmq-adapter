@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Basic builder class to create bindings for a more fluent API style in code based configuration.
+ */
 public class BindingBuilder {
 
     public static DestinationConfigurer bind(Queue queue) {

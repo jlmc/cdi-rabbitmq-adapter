@@ -3,7 +3,7 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit;
 
 import io.github.jlmc.cdi.adapter.amqp.rabbit.core.Declarable;
 import io.github.jlmc.cdi.adapter.amqp.rabbit.core.Declarables;
-import io.github.jlmc.cdi.adapter.amqp.rabbit.internal.DeclarablesCreator;
+import io.github.jlmc.cdi.adapter.amqp.rabbit.internal.DeclarablesAdministratorProcessor;
 import io.github.jlmc.cdi.adapter.amqp.rabbit.internal.EventBinder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,7 +24,7 @@ public class CdiAdapterAmqpRabbitBootstrap implements Serializable {
     Instance<DeclarablesConfigurator> declarablesConfigurators;
 
     @Inject
-    DeclarablesCreator declarablesCreator;
+    DeclarablesAdministratorProcessor declarablesAdministratorProcessor;
 
     @Inject
     EventBinder eventBinder;
@@ -56,7 +56,7 @@ public class CdiAdapterAmqpRabbitBootstrap implements Serializable {
                                         });
 
         if (!declarables.isEmpty()){
-            declarablesCreator.create(declarables);
+            declarablesAdministratorProcessor.create(declarables);
         }
     }
 

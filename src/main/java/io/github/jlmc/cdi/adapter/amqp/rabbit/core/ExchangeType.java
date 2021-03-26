@@ -2,6 +2,9 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 
+/**
+ * Constants for the standard Exchange type names.
+ */
 public enum ExchangeType {
 
     DIRECT(BuiltinExchangeType.DIRECT),

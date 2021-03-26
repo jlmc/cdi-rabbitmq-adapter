@@ -3,6 +3,9 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Builds a Spring AMQP Queue using a fluent API.
+ */
 public final class QueueBuilder extends AbstractBuilder {
 
     private final String name;

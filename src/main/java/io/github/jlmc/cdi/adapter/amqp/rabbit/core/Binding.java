@@ -2,6 +2,10 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 
 import java.util.Map;
 
+/**
+ * Simple container collecting information to describe a binding. Takes String destination and exchange names as
+ * arguments to facilitate wiring using code based configuration. Can be used via a {@link BindingBuilder}.
+ */
 public class Binding extends AbstractDeclarable {
 
     private final String destination;

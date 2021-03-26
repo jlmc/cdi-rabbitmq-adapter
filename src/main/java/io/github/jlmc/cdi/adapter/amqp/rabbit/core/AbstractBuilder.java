@@ -3,6 +3,9 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Base class for builders supporting arguments.
+ */
 class AbstractBuilder {
 
     private Map<String, Object> arguments;

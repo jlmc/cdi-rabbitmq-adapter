@@ -2,6 +2,9 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 
 import java.util.Map;
 
+/**
+ * Simple container collecting information to describe a fanout exchange. Used in conjunction with administrative operations
+ */
 public class FanoutExchange extends AbstractExchange {
 
     public FanoutExchange(String name) {

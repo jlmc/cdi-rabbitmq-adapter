@@ -2,6 +2,12 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 
 import java.util.Map;
 
+/**
+ * Common properties that describe all exchange types.
+ * <p>Subclasses of this class are typically used with administrative operations that declare an exchange.
+ *
+ * @see io.github.jlmc.cdi.adapter.amqp.rabbit.internal.DeclarablesAdministratorProcessor
+ */
 abstract class AbstractExchange extends AbstractDeclarable implements Exchange {
 
     private final String name;

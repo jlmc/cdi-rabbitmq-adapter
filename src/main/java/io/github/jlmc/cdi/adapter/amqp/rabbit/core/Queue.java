@@ -3,6 +3,9 @@ package io.github.jlmc.cdi.adapter.amqp.rabbit.core;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Simple container collecting information to describe a queue. Used in conjunction with administrative operations.
+ */
 public class Queue extends AbstractDeclarable {
 
     public static final String X_QUEUE_MASTER_LOCATOR = "x-queue-master-locator";

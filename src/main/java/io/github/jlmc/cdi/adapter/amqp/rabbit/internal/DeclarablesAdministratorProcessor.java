@@ -16,10 +16,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * RabbitMQ Administrator Declarables Processor implementation of portable AMQP administrative operations for AMQP >= 0.9.1.
+ */
 @ApplicationScoped
-public class DeclarablesCreator implements Serializable {
+public class DeclarablesAdministratorProcessor implements Serializable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeclarablesCreator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeclarablesAdministratorProcessor.class);
 
     @Inject
     Connection connection;

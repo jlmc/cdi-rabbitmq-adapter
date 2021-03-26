@@ -6,7 +6,7 @@
 
     <groupId>io.github.jlmc</groupId>
     <artifactId>cdi-rabbitmq-adapter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>cdi-rabbitmq-adapter</name>
     <description>convenient java library to make easy to integration with the rabbitMQ in project that use CDI 2.0</description>

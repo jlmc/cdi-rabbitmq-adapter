@@ -9,6 +9,14 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>cdi-rabbitmq-adapter</name>
+    <description>convenient java library to make easy to integration with the rabbitMQ in project that use CDI 2.0</description>
+    <url>https://github.com/jlmc/cdi-rabbitmq-adapter</url>
+
+    <developers>
+        <developer>
+            <name>Joao Costa</name>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +33,7 @@
             <artifactId>amqp-client</artifactId>
             <version>5.11.0</version>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -33,12 +42,21 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- CDI 2.0 API -->
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <version>2.0</version>
             <scope>provided</scope>
         </dependency>
 
+
+        <dependency>
+            <!-- CDI 2.0 RI for Java SE -->
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-shaded</artifactId>
+            <version>3.0.0.Final</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <!-- JSON-P 1.1 API -->
             <groupId>javax.json</groupId>
@@ -67,19 +85,10 @@
             <version>1.0</version>
             <scope>test</scope>
         </dependency>
-
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.6.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-shaded</artifactId>
-            <version>3.0.0.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -97,32 +106,7 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <scope>test</scope>
         </dependency>
-
-
-        <!-- Optional: Logging configuration -->
-        <!--  <dependency>
-              <groupId>org.apache.logging.log4j</groupId>
-              <artifactId>log4j-api</artifactId>
-          </dependency>
-          <dependency>
-              <groupId>org.apache.logging.log4j</groupId>
-              <artifactId>log4j-core</artifactId>
-          </dependency>
-          <dependency>
-              <groupId>org.apache.logging.log4j</groupId>
-              <artifactId>log4j-slf4j-impl</artifactId>
-          </dependency>-->
-
-        <!-- <dependency>
-             <groupId>org.slf4j</groupId>
-             <artifactId>slf4j-api</artifactId>
-             <version>${slf4j-api.version}</version>
-
-         </dependency>-->
-        <!-- / Optional: Logging configuration -->
-
     </dependencies>
-
 
     <dependencyManagement>
         <dependencies>
@@ -135,4 +119,48 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+        </plugins>
+    </build>
 </project>

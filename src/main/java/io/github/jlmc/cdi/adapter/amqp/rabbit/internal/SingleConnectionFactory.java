@@ -8,7 +8,9 @@ import io.github.jlmc.cdi.adapter.amqp.rabbit.ConnectionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
@@ -51,24 +53,30 @@ public class SingleConnectionFactory extends ConnectionFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleConnectionFactory.class);
 
     private ExecutorService executorService;
-    private AtomicReference<State> state = new AtomicReference<>(State.NEVER_CONNECTED);
-    private AtomicReference<Connection> connection = new AtomicReference<>(null);
-    private List<ConnectionListener> connectionListeners;
+    private final AtomicReference<State> state = new AtomicReference<>(State.NEVER_CONNECTED);
+    private final AtomicReference<Connection> connection = new AtomicReference<>(null);
+    private List<ConnectionListener> connectionListeners = new CopyOnWriteArrayList<>();
     private boolean tryToReconnectByItSelf = false;
     private final Object operationOnConnectionMonitor = new Object();
 
     public SingleConnectionFactory(ConnectionFactoryConfigurations configurations) {
         super();
         this.executorService = configurations.getExecutorService();
-        super.setSharedExecutor(executorService);
-        super.setShutdownExecutor(executorService);
-        super.setTopologyRecoveryExecutor(executorService);
-        super.setHeartbeatExecutor(configurations.getHeartbeatExecutor());
-
 
         setHost(configurations.getHost());
         setUsername(configurations.getUsername());
         setPassword(configurations.getPassword());
+        setVirtualHost(configurations.getVirtualHost());
+        setPort(configurations.getPort());
+
+        if (configurations.useSslProtocol()) {
+            useSslProtocol(getSslContext(configurations.getSslProtocol()));
+        }
+
+        setSharedExecutor(executorService);
+        setShutdownExecutor(executorService);
+        setTopologyRecoveryExecutor(executorService);
+        setHeartbeatExecutor(configurations.getHeartbeatExecutor());
 
         // Automatic Recovery
         setAutomaticRecoveryEnabled(configurations.isAutomaticRecoveryEnabled()); // connection that will recover automatically
@@ -78,10 +86,15 @@ public class SingleConnectionFactory extends ConnectionFactory {
         // Detecting Dead TCP Connections with Heartbeats and TCP Keepalives
         // https://www.rabbitmq.com/heartbeats.html
         setRequestedHeartbeat(configurations.getRequestedHeartbeatInSec()); //
-
-        connectionListeners = new CopyOnWriteArrayList<>();
         //connectionShutdownListener = new ConnectionShutDownListener();
+    }
 
+    private SSLContext getSslContext(String protocol) {
+        try {
+            return SSLContext.getInstance(protocol);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -125,13 +138,13 @@ public class SingleConnectionFactory extends ConnectionFactory {
 
             LOGGER.info("Closing connection factory");
 
-            if (connection != null) {
+            if (connection.get() != null) {
                 try {
                     connection.get().close();
-                    connection = null;
+                    connection.set(null);
                 } catch (IOException e) {
 
-                    if (! connection.get().isOpen()) {
+                    if (!connection.get().isOpen()) {
                         LOGGER.warn("Attempt to close an already closed connection");
                     } else {
                         LOGGER.error("Unable to close current connection", e);
@@ -151,31 +164,31 @@ public class SingleConnectionFactory extends ConnectionFactory {
      * @throws IOException if establishing a new connection fails
      */
     private void establishConnection() throws IOException, TimeoutException {
-            synchronized (operationOnConnectionMonitor) {
+        synchronized (operationOnConnectionMonitor) {
 
-                if (State.CLOSED == state.get()) {
-                    throw new IOException("Attempt to establish a connection with a closed connection factory");
-                } else if (State.CONNECTED == state.get()) {
-                    LOGGER.warn("Establishing new connection although a connection is already established");
-                }
-
-                try {
-                    LOGGER.info("Trying to establish connection to {}:{}", getHost(), getPort());
-
-                    connection.set(super.newConnection(executorService));
-
-                    connection.get().addShutdownListener(this::onConnectionShutdown);
-
-
-                    LOGGER.info("Established connection to {}:{}", getHost(), getPort());
-
-                    changeState(State.CONNECTED);
-
-                } catch (IOException e) {
-                    LOGGER.error("Failed to establish connection to {}:{}", getHost(), getPort());
-                    throw e;
-                }
+            if (State.CLOSED == state.get()) {
+                throw new IOException("Attempt to establish a connection with a closed connection factory");
+            } else if (State.CONNECTED == state.get()) {
+                LOGGER.warn("Establishing new connection although a connection is already established");
             }
+
+            try {
+                LOGGER.info("Trying to establish connection to {}:{}", getHost(), getPort());
+
+                connection.set(super.newConnection(executorService));
+
+                connection.get().addShutdownListener(this::onConnectionShutdown);
+
+
+                LOGGER.info("Established connection to {}:{}", getHost(), getPort());
+
+                changeState(State.CONNECTED);
+
+            } catch (IOException e) {
+                LOGGER.error("Failed to establish connection to {}:{}", getHost(), getPort());
+                throw e;
+            }
+        }
     }
 
     /**

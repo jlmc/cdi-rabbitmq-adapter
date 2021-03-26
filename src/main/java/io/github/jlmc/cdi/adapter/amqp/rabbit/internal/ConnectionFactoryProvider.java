@@ -40,9 +40,14 @@ public class ConnectionFactoryProvider implements Serializable {
     }
 
     public void closeConnectionFactory(@Disposes ConnectionFactory connectionFactory) {
-        if (connectionFactory instanceof SingleConnectionFactory) {
-            ((SingleConnectionFactory)connectionFactory).close();
+        try {
+            if (connectionFactory instanceof SingleConnectionFactory) {
+                ((SingleConnectionFactory)connectionFactory).close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
 }

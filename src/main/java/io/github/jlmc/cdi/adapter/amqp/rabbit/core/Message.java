@@ -13,6 +13,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * A message encapsulates the delivery content of a delivery from a broker. It wraps the body and
+ * the message properties and contains commodity methods to access those in an easier fashion.
+ */
 public class Message {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Message.class);

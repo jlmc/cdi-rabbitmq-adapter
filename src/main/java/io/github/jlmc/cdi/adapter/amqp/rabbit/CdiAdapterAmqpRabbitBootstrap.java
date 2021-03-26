@@ -10,14 +10,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Destroyed;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 @ApplicationScoped
-public class CdiAdapterAmqpRabbitStartup implements Serializable {
+public class CdiAdapterAmqpRabbitBootstrap implements Serializable {
 
+    @Any
     @Inject
     Instance<DeclarablesConfigurator> declarablesConfigurators;
 
@@ -53,7 +55,9 @@ public class CdiAdapterAmqpRabbitStartup implements Serializable {
 
                                         });
 
-        declarablesCreator.create(declarables);
+        if (!declarables.isEmpty()){
+            declarablesCreator.create(declarables);
+        }
     }
 
 }

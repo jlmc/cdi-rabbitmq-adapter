@@ -9,14 +9,15 @@ import io.github.jlmc.cdi.adapter.amqp.rabbit.core.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-@Dependent
-public class DeclarablesCreator {
+@ApplicationScoped
+public class DeclarablesCreator implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeclarablesCreator.class);
 
@@ -49,7 +50,7 @@ public class DeclarablesCreator {
             }
 
         } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
+            LOGGER.warn("Unexpected problem during the creating of RabbitMQ resources: <{}>", e.getMessage());
         }
     }
 

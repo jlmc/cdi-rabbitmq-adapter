@@ -1,13 +1,20 @@
 package io.github.jlmc.cdi.adapter.amqp.rabbit;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.ConnectionFactory;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class ConnectionFactoryConfigurations {
 
-    private String host = "localhost";
-    private String username = null;
-    private String password = null;
+    private String host = ConnectionFactory.DEFAULT_HOST;
+    private String username = ConnectionFactory.DEFAULT_USER;
+    private String password = ConnectionFactory.DEFAULT_PASS;
+    private String virtualHost = ConnectionFactory.DEFAULT_VHOST;
+    private boolean useSslProtocol = false;
+    private String sslProtocol = "TLSv1.2";
+    private int port = AMQP.PROTOCOL.PORT;
     private boolean automaticRecoveryEnabled = true;
     private int connectionTimeout = 1_000;
     private long networkRecoveryInterval = 10_000L;
@@ -32,6 +39,10 @@ public class ConnectionFactoryConfigurations {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getVirtualHost() {
+        return virtualHost;
     }
 
     public boolean isAutomaticRecoveryEnabled() {
@@ -112,4 +123,35 @@ public class ConnectionFactoryConfigurations {
         return this;
     }
 
+    public ConnectionFactoryConfigurations setVirtualHost(String virtualHost) {
+        this.virtualHost = virtualHost;
+        return this;
+    }
+
+    public ConnectionFactoryConfigurations setUseSslProtocol() {
+        this.useSslProtocol = true;
+        return this;
+    }
+
+    public boolean useSslProtocol() {
+        return useSslProtocol;
+    }
+
+    public ConnectionFactoryConfigurations setSslProtocol(String protocol) {
+        this.sslProtocol = protocol;
+        return this;
+    }
+
+    public String getSslProtocol() {
+        return sslProtocol;
+    }
+
+    public ConnectionFactoryConfigurations setPort(int port) {
+        this.port = port;
+        return this;
+    }
+
+    public int getPort() {
+        return port;
+    }
 }

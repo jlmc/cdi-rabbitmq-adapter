@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ public class EventBinder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventBinder.class);
 
+    @Any
     @Inject
     Instance<BindingsConfigurator> bindingsConfigurators;
 

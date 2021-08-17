@@ -1,13 +1,11 @@
-![Java CI with Maven](https://github.com/jlmc/cdi-rabbitmq-adapter/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.jlmc/cdi-rabbitmq-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.jlmc/cdi-rabbitmq-adapter)
-
 
 # cdi-rabbitmq-adapter
 
-`cdi-rabbitmq-adapter` it is a convenient java library to make easy to integration with the rabbitMQ in project that use CDI 2.0 or highers it may be a Java Se or a Jakarta EE application. 
+`cdi-rabbitmq-adapter` it is a convenient java library to make easy to integration with the rabbitMQ in project that use
+CDI 2.0 or highers it may be a Java Se or a Jakarta EE application.
 
-
-## Features 
+## Features
 
 - connection factory for long living single connections
 - managed simple, confirmed and transactional publishers that recover from connection loss
@@ -20,21 +18,40 @@
 
 ## Overview
 
-The basic principle that allows to integrate rabbitMQ in a **JakartaEE** environment is to use the facilities of the **CDI** (Context Dependency Injection).
-Basically we need:
+The basic principle that allows to integrate rabbitMQ in a **JakartaEE** environment is to use the facilities of the **
+CDI** (Context Dependency Injection). Basically we need:
 
 - to fire CDI events remotely, bind them to be published as messages to broker exchanges
 - to observe CDI events remotely, bind them to be consumed as messages from broker queues
 
+### Dependencies
+
+```xml
+<dependency>
+    <groupId>io.github.jlmc</groupId>
+    <artifactId>cdi-rabbitmq-adapter</artifactId>
+    <version>1.0</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>com.rabbitmq</groupId>
+    <artifactId>amqp-client</artifactId>
+    <version>5.11.0</version>
+    <scope>runtime</scope>
+</dependency>
+```
 
 ### Configure the connection factory
 
-A single connection factory always provides the same connection on calling newConnection() as long as the connection persists. 
-A new connection is established as soon as the current connection is lost.
+A single connection factory always provides the same connection on calling newConnection() as long as the connection
+persists. A new connection is established as soon as the current connection is lost.
 
-SingleConnectionFactory extends ConnectionFactory from the RabbitMQ standard library and is used just the same way as the factory from the standard library. The only difference: From now on you don't have to care about too many connections being established to a broker any more.
+SingleConnectionFactory extends ConnectionFactory from the RabbitMQ standard library and is used just the same way as
+the factory from the standard library. The only difference: From now on you don't have to care about too many
+connections being established to a broker any more.
 
-We must configure the Connection Factory using an implementation of `ConnectionFactoryConfigurationsConfigurator`, the definition of the class is mandatory:
+We must configure the Connection Factory using an implementation of `ConnectionFactoryConfigurationsConfigurator`, the
+definition of the class is mandatory:
 
 ```java
 import io.github.jlmc.cdi.adapter.amqp.rabbit.ConnectionFactoryConfigurations;
@@ -149,17 +166,17 @@ public class DemoPublisherBindingsConfigurator implements BindingsConfigurator {
 
     @Override
     public List<ExchangeBinding> publisherBindings() {
-            ExchangeBinding exchangeBinding =
-                    EventBindingBuilder.bind(MealBookedEvent.class)
-                                       .toExchange("x.direct")
-                                       .withRoutingKey("helloA")
-                                       .withPersistentMessages()
-                                       .withPublisherConfirms();
-                                       //.withPublisherTransactions();
-        
-            // We can map how many ExchangeBinding we need...
-        
-            return List.of(exchangeBinding);
+        ExchangeBinding exchangeBinding =
+                EventBindingBuilder.bind(MealBookedEvent.class)
+                                   .toExchange("x.direct")
+                                   .withRoutingKey("helloA")
+                                   .withPersistentMessages()
+                                   .withPublisherConfirms();
+        //.withPublisherTransactions();
+
+        // We can map how many ExchangeBinding we need...
+
+        return List.of(exchangeBinding);
     }
 }
 ```
@@ -186,12 +203,14 @@ public class MealBookingCommandService {
     }
 }
 ```
-This is going to publish the fired event to local observers of `MealBookedEvent` and is also going to publish a message to the exchange `x.direct` with routing key `hello` as we have defined it in the binding.
 
+This is going to publish the fired event to local observers of `MealBookedEvent` and is also going to publish a message
+to the exchange `x.direct` with routing key `hello` as we have defined it in the binding.
 
 ### Bind the queues messages to CDI Events
 
-Binding an event to a queue for consuming events works the same. We should first create an implementation of `BindingsConfigurator` and override its `consumerBindings()` method:
+Binding an event to a queue for consuming events works the same. We should first create an implementation
+of `BindingsConfigurator` and override its `consumerBindings()` method:
 
 ```java
 import io.github.jlmc.cdi.adapter.amqp.rabbit.BindingsConfigurator;
@@ -227,9 +246,9 @@ import javax.enterprise.event.Observes;
 public class MealBookedEventConsumer {
 
     public void onMealBookedEvent(@Observes MealBookedEvent event) {
-        
+
         // business implementation ...
-        
+
     }
 }
 ```

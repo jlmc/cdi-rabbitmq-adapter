@@ -40,7 +40,7 @@ public class TextPlanConverters implements Serializable {
         TextPlainConverter<T> converter = find(type);
 
         if (converter == null) {
-            throw new IllegalStateException("No TextPlainConverter implementation for the type <%s>".formatted(type));
+            throw new IllegalStateException(String.format("No TextPlainConverter implementation for the type <%s>", type));
         }
 
         return converter;

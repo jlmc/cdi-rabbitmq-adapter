@@ -31,8 +31,7 @@ class DeclarablesTest {
                 fanout,
                 queueA,
                 queueB,
-                helloA//,
-                //helloB
+                helloA
         );
 
         List<Queue> queues = declarables.getDeclarablesByType(Queue.class);

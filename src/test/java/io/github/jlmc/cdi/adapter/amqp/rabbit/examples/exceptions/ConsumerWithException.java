@@ -74,7 +74,7 @@ public class ConsumerWithException {
 
             // (process the message components here ...)
             System.out.println("--- Consuming ... " + Instant.now());
-            System.out.println(Thread.currentThread().getName() + " [%s] - ###[%s , %s]### ---> %s".formatted(name, routingKey, contentType, message));
+            System.out.printf(Thread.currentThread().getName() + " [%s] - ###[%s , %s]### ---> %s\n", name, routingKey, contentType, message);
 
             System.out.println("ENVELOPE: " + envelope);
             System.out.println("AMQP Properties: " + properties);

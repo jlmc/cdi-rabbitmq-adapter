@@ -1,4 +1,3 @@
-![Java CI with Maven](https://github.com/jlmc/cdi-rabbitmq-adapter/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.jlmc/cdi-rabbitmq-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.jlmc/cdi-rabbitmq-adapter)
 
 

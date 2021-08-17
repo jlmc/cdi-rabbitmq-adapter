@@ -12,11 +12,38 @@
     <description>convenient java library to make easy to integration with the rabbitMQ in project that use CDI 2.0</description>
     <url>https://github.com/jlmc/cdi-rabbitmq-adapter</url>
 
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <developers>
         <developer>
             <name>Joao Costa</name>
+            <email>costajlmpp@gmail.com</email>
+            <organization>io.github.jlmc</organization>
+            <organizationUrl>https://github.com/jlmc</organizationUrl>
         </developer>
     </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/jlmc/cdi-rabbitmq-adapter.git</connection>
+        <developerConnection>scm:git:ssh://github.com:jlmc/cdi-rabbitmq-adapter.git</developerConnection>
+        <url>https://github.com/jlmc/cdi-rabbitmq-adapter</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,8 +75,6 @@
             <version>2.0</version>
             <scope>provided</scope>
         </dependency>
-
-
         <dependency>
             <!-- CDI 2.0 RI for Java SE -->
             <groupId>org.jboss.weld.se</groupId>

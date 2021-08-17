@@ -1,3 +1,7 @@
+![Java CI with Maven](https://github.com/jlmc/cdi-rabbitmq-adapter/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.jlmc/cdi-rabbitmq-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.jlmc/cdi-rabbitmq-adapter)
+
+
 # cdi-rabbitmq-adapter
 
 `cdi-rabbitmq-adapter` it is a convenient java library to make easy to integration with the rabbitMQ in project that use CDI 2.0 or highers it may be a Java Se or a Jakarta EE application. 

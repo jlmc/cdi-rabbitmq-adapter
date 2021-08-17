@@ -69,7 +69,7 @@ public class ProducerApp {
 
                 for (String severity : SEVERITIES) {
 
-                    byte[] message = TEMPLATE_MESSAGE.formatted(severity, i, Instant.now()).getBytes(StandardCharsets.UTF_8);
+                    byte[] message = String.format(TEMPLATE_MESSAGE, severity, i, Instant.now()).getBytes(StandardCharsets.UTF_8);
                     channel.basicPublish(X_EXAMPLE, severity, null, message);
 
                     System.out.printf("##--## Sent -> %s \n", new String(message));

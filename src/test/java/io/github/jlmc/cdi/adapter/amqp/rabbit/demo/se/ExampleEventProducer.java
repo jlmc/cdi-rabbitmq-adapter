@@ -47,7 +47,7 @@ public class ExampleEventProducer {
         final Instant now = Instant.now();
 
         IntStream.rangeClosed(1, 20)
-                 .mapToObj(index -> "My Custom business event [%s] produced at [%s]".formatted(count.incrementAndGet(), now))
+                 .mapToObj(index -> String.format("My Custom business event [%s] produced at [%s]", count.incrementAndGet(), now))
                  .map(SentEvent::of)
                  .forEach(eventBus::fire);
     }

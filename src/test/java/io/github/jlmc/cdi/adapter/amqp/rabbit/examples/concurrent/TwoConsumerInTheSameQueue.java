@@ -72,7 +72,7 @@ public class TwoConsumerInTheSameQueue {
 
             // (process the message components here ...)
             System.out.println("--- Consuming ... " + Instant.now());
-            System.out.println(Thread.currentThread().getName() + " [%s] - ###[%s , %s]### ---> %s".formatted(name, routingKey, contentType, message));
+            System.out.printf(Thread.currentThread().getName() + " [%s] - ###[%s , %s]### ---> %s\n", name, routingKey, contentType, message);
             simulateDelay();
             System.out.println("--- Consumed ... " + Instant.now());
 

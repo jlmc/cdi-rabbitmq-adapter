@@ -71,7 +71,7 @@ public class ConsumerInfo {
             long deliveryTag = envelope.getDeliveryTag();
 
             // (process the message components here ...)
-            System.out.println(Thread.currentThread().getName() + " [%s] - ###[%s , %s]### ---> %s".formatted(name, routingKey, contentType, message));
+            System.out.printf(Thread.currentThread().getName() + " [%s] - ###[%s , %s]### ---> %s \n", name, routingKey, contentType, message);
 
             Channel channel = super.getChannel();
             channel.basicAck(deliveryTag, false);

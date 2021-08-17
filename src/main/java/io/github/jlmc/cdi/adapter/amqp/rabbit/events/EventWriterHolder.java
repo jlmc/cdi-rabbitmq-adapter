@@ -25,7 +25,7 @@ public class EventWriterHolder implements Serializable {
             return writers.select(EventMediaType.EventMediaTypeLiteral.of(contentType)).get();
         } catch (Throwable t) {
             LOGGER.error("Can't find EventWriter implementation for the contentType <{}>", contentType);
-            throw new IllegalStateException("Can't find EventWriter implementation for the contentType <%s>".formatted(contentType), t);
+            throw new IllegalStateException(String.format("Can't find EventWriter implementation for the contentType <%s>", contentType), t);
         }
     }
 }
